@@ -44,11 +44,45 @@ def search_linear(source_list:list, target:int)->tuple:
             return True, index
     
     return False, -1
-   
-my_list = generate_random_unsorted_list()
-print("List : ", my_list)
 
-target = 100 #my_list[3]
-print("Target : ", target)
-search_result, index = search_linear(my_list, target)
-print(f"Target ({target}) has been found at index {index}" if search_result else f"Target ({target}) has not been found")
+def search_binary(source_list:list, target:int)->tuple:
+    # TODO Check if the source_list actually sorted. If not raise an error.
+    
+    
+    start = 0
+    end = len(source_list)-1
+    while start<end:
+        mid = int((start + end) / 2)
+        if target>source_list[mid]:
+            start = mid + 1
+        elif target<source_list[mid]:
+            end = mid -1
+        else:
+           return True, mid
+   
+    return False, -1
+
+def search_jump(source_list:list, target:int)->tuple:
+    
+    block_size = int(len(source_list) ** 0.5)
+    n = len(source_list)
+    start = 0
+    end = 0
+    while end<=n:
+        end = start + block_size
+        print(start, end)
+        if source_list[end]>target:
+            break
+        start = end+1
+        end += block_size
+    
+    # TODO Use search_linear method and adjust the indexes
+    for i in range(start,end):
+        if source_list[i]==target:
+            return True, i
+    
+    return False, -1
+
+if __name__ == "__main__":
+    # TODO Create positive and negative case scenarios.
+    pass
